@@ -33,7 +33,7 @@ PRODUCTS = [
 ]
 
 @app.get("/products")
-def get_products(search : Annotated[str | None, Query(default=None, max_length=5, pattern="^[a-z]+$")] = None):
+def get_products(search : Annotated[str | None, Query(max_length=5, pattern="^[a-z]+$")] = None):
     if search:
         search_lower = search.lower()
         filter_product = []
