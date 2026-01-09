@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 
 app = FastAPI()
 
@@ -34,12 +34,12 @@ PRODUCTS = [
 
 
 # Get all data
-@app.get("/product")
+@app.get("/product", status_code=status.HTTP_200_OK)
 async def all_data():
   return PRODUCTS
 
 # Get single data
-@app.get("/product/{product_id}")
+@app.get("/product/{product_id}", status_code=status.HTTP_200_OK)
 async def single_data(product_id:int):
   for product in PRODUCTS:
     if product['id'] == product_id:
@@ -47,12 +47,12 @@ async def single_data(product_id:int):
     else:
       return {'message': "Product not found"}
     
-@app.post("/product/")
+@app.post("/product/", status_code=status.HTTP_201_CREATED)
 async def new_product(new_product:dict):
   PRODUCTS.append(new_product)
   return {'message': "CREATED", 'new_product': new_product}
 
-@app.put("/product/{product_id}")
+@app.put("/product/{product_id}", status_code=status.HTTP_200_OK)
 async def update_data(product_id:int,new_updated_product:dict):
   for index,product in enumerate(PRODUCTS):
     if product['id'] == product_id:
@@ -63,7 +63,7 @@ async def update_data(product_id:int,new_updated_product:dict):
         'updated_product':new_updated_product
       }
   
-@app.delete("/product/{product_id}")
+@app.delete("/product/{product_id}", status_code=status.HTTP_200_OK)
 async def delete_product(product_id:int):
   for index,product in enumerate(PRODUCTS):
     if product['id'] == product_id:
